@@ -1,0 +1,43 @@
+name: EpomPrebidDemo
+options:
+  bundleIdPrefix: com.epom
+  deploymentTarget:
+    iOS: "15.0"
+
+packages:
+  PrebidMobile:
+    url: https://github.com/prebid/prebid-mobile-ios
+    from: "3.0.0"
+  GoogleMobileAds:
+    url: https://github.com/googleads/swift-package-manager-google-mobile-ads
+    from: "12.0.0"
+
+targets:
+  EpomPrebidDemo:
+    type: application
+    platform: iOS
+    sources: [EpomPrebidDemo]
+    info:
+      path: EpomPrebidDemo/Info.plist
+      properties:
+        CFBundleDisplayName: Epom Prebid Demo
+        UILaunchStoryboardName: ""
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        # Replace with the publisher's own Google Ad Manager / AdMob application id.
+        GADApplicationIdentifier: ca-app-pub-3940256099942544~1458002511
+        # Shown in the App Tracking Transparency prompt. Without the prompt iOS returns an
+        # all-zero advertising id, and every server-side frequency cap stops applying.
+        NSAppTransportSecurity:
+          # Ad creatives are third-party content rendered inside a WebView, and plenty are
+          # still served over http. Without this the creative silently fails to load while
+          # the bid itself looks perfectly healthy. NSAllowsLocalNetworking is a separate
+          # thing: it is what lets the app reach a Prebid Server on your own machine.
+          NSAllowsArbitraryLoadsInWebContent: true
+          NSAllowsLocalNetworking: true
+        NSUserTrackingUsageDescription: We ask so advertising can be kept relevant and capped.
+    dependencies:
+      - package: PrebidMobile
+        product: PrebidMobile
+      - package: GoogleMobileAds
+        product: GoogleMobileAds

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Epom brand palette. -->
+    <color name="epom_blue">#5273EF</color>
+    <color name="epom_navy">#060028</color>
+    <color name="epom_surface">#FFFFFF</color>
+</resources>

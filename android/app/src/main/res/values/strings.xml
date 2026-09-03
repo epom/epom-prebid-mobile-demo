@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Epom Prebid Demo</string>
+
+    <!-- ══ Everything a publisher has to change lives here ═════════════════════════
+
+         Every value below is only the STARTING value. The Settings screen writes over each of
+         them on the device, so the app can be pointed at your own server and slots without
+         rebuilding it. "Reset" there puts these values back.
+
+         Fill them in this order; each step is testable before the next one matters.
+    -->
+
+    <!-- 1. THE AUCTION — where it runs. The defaults point at the Prebid Server Epom runs and
+            its test network, so a fresh clone fills without editing anything; swap them for your
+            own server and account. Include the full path. On an emulator the host machine is
+            10.0.2.2, not localhost. -->
+    <string name="prebid_server_url">https://pbs.eashb.com/openrtb2/auction</string>
+    <string name="prebid_account_id">n2494</string>
+
+    <!-- 2. THE SLOTS — one config id per slot.
+
+            A config id is a Prebid Server STORED-REQUEST id, NOT an Epom placement key. This
+            trips up almost everyone, so bluntly: the app never sends your Epom placement to
+            anyone. It sends this id; Prebid Server looks up the stored request filed under it,
+            and that is where your Epom host and placement key live. A wrong id produces no bid
+            and no error worth the name — the auction simply comes back empty.
+
+            The stored-request JSON to file on your server is in the README. -->
+    <string name="config_id_mrec">n2494-1</string>
+    <string name="config_id_banner">YOUR-STORED-REQUEST-ID-320x50</string>
+    <string name="config_id_video">n2494-3</string>
+    <string name="config_id_native">n2494-2</string>
+    <string name="config_id_interstitial">n2494-4</string>
+    <string name="config_id_interstitial_image">n2494-6</string>
+    <string name="config_id_playable">n2494-5</string>
+    <string name="config_id_rewarded">n2494-4</string>
+
+    <!-- 3. GOOGLE — only for the two screens that render through it. The screens that say
+            "Prebid renders" ignore all three of these, which is why they fill on a fresh setup.
+
+            The application id is read by the Mobile Ads SDK while the app starts, before any of
+            this app's code runs, so it is the one value the Settings screen cannot override. -->
+    <string name="gam_application_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="gam_ad_unit_mrec">/YOUR-NETWORK/your-mrec-ad-unit</string>
+    <string name="gam_ad_unit_banner">/YOUR-NETWORK/your-banner-ad-unit</string>
+
+    <!-- Seconds between refreshes. Prebid clamps this to 30-120 and pauses it while the slot is
+         off screen, so a smaller number here does not produce a faster refresh. -->
+    <integer name="refresh_seconds">30</integer>
+
+    <string name="brand_title">Epom Ad Server</string>
+    <string name="brand_subtitle">In-app header bidding, by example</string>
+    <string name="menu_intro">Every screen below asks the same Prebid Server for a bid, and Epom answers it as the epom_as bidder. There is no Epom SDK in this app.</string>
+</resources>

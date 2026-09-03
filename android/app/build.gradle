@@ -1,0 +1,36 @@
+plugins {
+    id "com.android.application"
+    id "org.jetbrains.kotlin.android"
+}
+
+android {
+    namespace "com.epom.prebiddemo"
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.epom.prebiddemo"
+        minSdk 23
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions { jvmTarget = "17" }
+    buildTypes { release { minifyEnabled false } }
+}
+
+dependencies {
+    implementation "androidx.appcompat:appcompat:1.7.0"
+    implementation "com.google.android.material:material:1.12.0"
+
+    // Prebid Mobile: fetches the bid and hands its targeting keys to Google.
+    implementation "org.prebid:prebid-mobile-sdk:3.0.2"
+
+    // Google Mobile Ads: the primary ad server. It renders both the Prebid winner
+    // and, when nobody bids, its own demand — which is what makes this a backfill.
+    implementation "com.google.android.gms:play-services-ads:25.4.0"
+}

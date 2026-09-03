@@ -1,0 +1,15 @@
+# Android
+android/local.properties
+android/.gradle/
+android/build/
+android/app/build/
+*.apk
+
+# iOS — the project is generated from project.yml by XcodeGen
+ios/EpomPrebidDemo.xcodeproj/
+ios/*.xcworkspace/
+ios/build/
+DerivedData/
+.swiftpm/
+
+.DS_Store

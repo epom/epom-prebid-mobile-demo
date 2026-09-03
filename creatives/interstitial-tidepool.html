@@ -1,0 +1,85 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Tidepool — interstitial</title>
+
+<!-- The container injects mraid.js. Referenced with no src of our own and never bundled: a creative
+     that ships its own copy talks to a stub instead of the SDK, and open() then does nothing. -->
+<script src="mraid.js"></script>
+
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent }
+  html, body { margin:0; padding:0; height:100%; background:#04212b }
+
+  /* Its own root rather than body: the creative is embedded in someone else's document, where body
+     may be shared or sized by the host and position:fixed measures a viewport we do not control. */
+  #ad { position:absolute; inset:0; width:100%; height:100%; overflow:hidden;
+        background:#04212b; color:#fff; user-select:none;
+        font:400 16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+        display:flex; flex-direction:column; align-items:center; justify-content:center;
+        text-align:center; padding:32px }
+
+  #tide { position:absolute; inset:auto -20% -18% -20%; height:62%;
+          background:radial-gradient(60% 70% at 50% 100%, #0e7c86 0%, transparent 70%);
+          filter:blur(6px) }
+  #sun { position:absolute; top:12%; left:50%; width:132px; height:132px; margin-left:-66px;
+         border-radius:50%; background:radial-gradient(circle at 40% 35%, #ffe6a7, #ff9f45 60%, transparent 72%);
+         opacity:.9 }
+
+  .wave { position:absolute; left:-10%; right:-10%; height:180px; bottom:-40px;
+          border-radius:44% 56% 42% 58% / 60% 52% 48% 40%;
+          background:rgba(23,150,160,.35); animation:roll 9s ease-in-out infinite alternate }
+  .wave.b { bottom:-72px; background:rgba(10,110,124,.45); animation-duration:12s }
+  @keyframes roll { to { transform:translateX(4%) rotate(3deg) } }
+
+  #mark { width:52px; height:60px; margin-bottom:22px; color:#7fe3d8; position:relative }
+  .mk-e { fill:#04212b }
+
+  h1 { position:relative; font-size:34px; line-height:1.15; font-weight:800; margin:0 0 10px;
+       letter-spacing:-0.5px }
+  p  { position:relative; margin:0 0 30px; max-width:19em; opacity:.85 }
+
+  #cta { position:relative; display:inline-block; padding:15px 38px; border-radius:999px;
+         background:#7fe3d8; color:#04212b; font-weight:800; font-size:17px; text-decoration:none;
+         box-shadow:0 10px 30px rgba(127,227,216,.3); animation:beat 2.2s ease-in-out infinite }
+  @keyframes beat { 50% { transform:scale(1.04) } }
+
+  #tag { position:absolute; left:0; right:0; bottom:20px; font-size:11px; opacity:.5 }
+
+  @media (prefers-reduced-motion:reduce) { * { animation:none !important } }
+</style>
+
+<div id="ad">
+  <div id="tide"></div>
+  <div id="sun"></div>
+  <div class="wave b"></div>
+  <div class="wave"></div>
+
+  <svg id="mark" viewBox="0 0 44 50" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path fill="currentColor" d="M22 0 44 12.5v25L22 50 0 37.5v-25z"/>
+    <path class="mk-e" d="M22 14c-4.4 0-8 3.6-8 8s3.6 8 8 8c2.8 0 5.2-1.4 6.6-3.6l-3.2-1.8A4.6 4.6 0 0 1 22 26.6 4.6 4.6 0 0 1 17.4 22 4.6 4.6 0 0 1 22 17.4c1.6 0 3 .8 3.8 2H21v3.4h9V22c0-4.4-3.6-8-8-8z"/>
+  </svg>
+
+  <h1>Tidepool</h1>
+  <p>Twelve minutes of quiet, every morning. No streaks, no badges, no push at 9pm.</p>
+  <a id="cta" href="#">Try it free</a>
+
+  <div id="tag">A made-up app, for showing what a full-screen image ad looks like</div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var CLICK_URL = 'https://example.com/tidepool';
+  var mr = window.mraid;
+
+  document.getElementById('cta').addEventListener('click', function (e) {
+    e.preventDefault();
+    // Every SDK routes the click through mraid.open. window.open is blocked inside an ad WebView,
+    // so the fallback exists only so this file can be opened in a plain browser.
+    if (mr && typeof mr.open === 'function') mr.open(CLICK_URL);
+    else window.open(CLICK_URL, '_blank');
+  });
+})();
+</script>
