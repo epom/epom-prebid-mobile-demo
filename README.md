@@ -111,6 +111,22 @@ and the stored request omits `banner`:
 Getting the id wrong is quiet: the SDK reports *"Prebid server does not recognize Config Id"* and the
 slot simply never bids.
 
+### Rewarded: the creative signals when the reward is earned
+
+A rewarded slot is marked on the server (Epom does this per slot), which puts a `rwdd` block in the
+bid that tells the SDK to hold the ad until the reward is earned and then show a close button rather
+than closing on its own. A **video** counts as earned when it finishes. A **playable** counts when its
+creative says so, by navigating to a fixed URL the SDK matches exactly:
+
+```js
+// in the playable's HTML, once the user has done the thing
+location.href = 'epom://reward';
+```
+
+The demo's rewarded screens grant the app's own reward from `onUserEarnedReward`
+(`rewardedAdUserDidEarnReward` on iOS), and say whether the bid described a reward of its own — the bid
+*describes* a reward, the app *grants* it.
+
 ### One more stored request: the account
 
 Prebid Mobile also sends the **account id** as a stored request of its own — `ext.prebid.storedrequest.id`
