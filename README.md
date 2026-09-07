@@ -210,6 +210,13 @@ talks to is chosen per install. In an app of your own, fill it carefully — iOS
 listed there while tracking is denied, so an ad server named in it stops answering for anyone who
 declines the prompt.
 
+**Two things App Store Connect asks for that are already answered here.** `ITSAppUsesNonExemptEncryption`
+is set to false — true, and it stops the export-compliance question appearing on every upload — and
+`DEVELOPMENT_TEAM` is an empty slot in `project.yml`: put your Apple Developer Team ID in it, or pick
+the team once in Xcode under Signing & Capabilities. The bundle id the project builds is
+`com.epom.EpomPrebidDemo`; register that identifier before creating the app record, because App Store
+Connect will not let you type one it has never seen.
+
 **On the Android emulator the host is `10.0.2.2`, not `localhost`**, and a local HTTP server needs
 `android:usesCleartextTraffic="true"` in the manifest — deliberately not committed here.
 

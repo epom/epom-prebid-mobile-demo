@@ -36,6 +36,15 @@ targets:
           NSAllowsArbitraryLoadsInWebContent: true
           NSAllowsLocalNetworking: true
         NSUserTrackingUsageDescription: We ask so advertising can be kept relevant and capped.
+        # Answered here so App Store Connect stops asking on every single upload. It is true:
+        # the app adds no encryption of its own and only speaks HTTPS, which is exempt.
+        ITSAppUsesNonExemptEncryption: false
+    settings:
+      base:
+        # Xcode needs a team to sign an archive with. Put your Apple Developer Team ID here,
+        # or leave it empty and pick the team once in Xcode: Signing & Capabilities.
+        DEVELOPMENT_TEAM: ""
+        CODE_SIGN_STYLE: Automatic
     dependencies:
       - package: PrebidMobile
         product: PrebidMobile
