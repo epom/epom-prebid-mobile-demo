@@ -20,7 +20,36 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions { jvmTarget = "17" }
-    buildTypes { release { minifyEnabled false } }
+
+    // Play will not take an unsigned bundle, not even on an internal testing track. The key never
+    // goes in the repository: copy keystore.properties.example to keystore.properties, fill it in,
+    // and it stays ignored. Without that file the release build is simply unsigned, which is what
+    // you want on a machine that has no business holding the key.
+    def keystoreProps = new Properties()
+    def keystoreFile = rootProject.file("keystore.properties")
+    if (keystoreFile.exists()) {
+        keystoreFile.withInputStream { keystoreProps.load(it) }
+    }
+
+    signingConfigs {
+        release {
+            if (keystoreProps.containsKey("storeFile")) {
+                storeFile file(keystoreProps["storeFile"])
+                storePassword keystoreProps["storePassword"]
+                keyAlias keystoreProps["keyAlias"]
+                keyPassword keystoreProps["keyPassword"]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (keystoreProps.containsKey("storeFile")) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
 }
 
 dependencies {

@@ -246,6 +246,12 @@ lookup"*. Qualify Google's with the module: `GoogleMobileAds.BannerView`.
 frame sized for the *line item*, not for the creative. Skip this call and a 300×250 arrives in a
 320×50 hole, cropped. Both apps call it in their Google load callback.
 
+## Handing them to testers
+
+These are reference apps, so they go to people through TestFlight and a Play testing track rather
+than the public stores — [RELEASING.md](RELEASING.md) is the step-by-step, including why the store
+is the wrong door for an app like this.
+
 ## Licence
 
 [Apache 2.0](LICENSE), same as Prebid Mobile.
