@@ -14,8 +14,8 @@ enum Format: String, CaseIterable {
     case native
     case interstitial
     case interstitialImage
-    case playable
     case rewarded
+    case rewardedPlayable
     case bannerMrecGam
     case banner320Gam
 
@@ -27,7 +27,7 @@ enum Format: String, CaseIterable {
         case .native:            return "Native"
         case .interstitial:      return "Interstitial video"
         case .interstitialImage: return "Interstitial image"
-        case .playable:          return "Playable"
+        case .rewardedPlayable:  return "Rewarded playable"
         case .rewarded:          return "Rewarded video"
         case .bannerMrecGam:     return "MREC 300x250 — Google renders"
         case .banner320Gam:      return "Mobile banner 320x50 — Google renders"
@@ -42,7 +42,7 @@ enum Format: String, CaseIterable {
         case .native:            return "The bid returns assets; the app draws the ad in its own style."
         case .interstitial:      return "Full screen video, on a slot marked instl."
         case .interstitialImage: return "Full screen image or HTML, on a slot of its own."
-        case .playable:          return "Full screen HTML the user can play with."
+        case .rewardedPlayable:  return "Full screen HTML. The creative says when the reward is earned."
         case .rewarded:          return "Full screen video. The reward arrives when it completes."
         case .bannerMrecGam:     return "Needs a Google ad unit and a line item on the hb_ keys."
         case .banner320Gam:      return "Needs its own ad unit — an MREC line item will not fill it."
@@ -64,7 +64,7 @@ enum Format: String, CaseIterable {
         switch self {
         case .interstitial:      return "full-screen video"
         case .interstitialImage: return "full-screen image"
-        case .playable:          return "full-screen playable"
+        case .rewardedPlayable:  return "rewarded playable"
         case .rewarded:          return "rewarded video"
         case .video:             return "VAST video"
         case .native:            return "native ad"
@@ -103,7 +103,7 @@ enum Format: String, CaseIterable {
         case .banner320Gam, .bannerMobilePrebid: return Settings.configIdBanner
         case .interstitial:      return Settings.configIdInterstitial
         case .interstitialImage: return Settings.configIdInterstitialImage
-        case .playable:          return Settings.configIdPlayable
+        case .rewardedPlayable:  return Settings.configIdPlayable
         case .rewarded:          return Settings.configIdRewarded
         case .video:             return Settings.configIdVideo
         case .native:            return Settings.configIdNative

@@ -2,8 +2,8 @@
 
 Two small apps, one iOS and one Android, that sell in-app inventory through **Epom Ad Server** using
 header bidding. Each opens on a menu of ten formats — two Prebid-rendered banners, in-banner video,
-native, a full-screen interstitial (video and image), a playable, a rewarded video, and two banners
-handed to Google to render — plus a Settings screen for pointing the app at your own server without
+native, a full-screen interstitial (video and image), a rewarded video and a rewarded playable, and
+two banners handed to Google to render — plus a Settings screen for pointing the app at your own server without
 rebuilding it.
 
 They are meant to be read as much as run: the code for each format is one short method, and copying
@@ -163,8 +163,8 @@ targeting.
 | Native | Prebid | no | no |
 | Interstitial video | Prebid | no | no |
 | Interstitial image | Prebid | no | no |
-| Playable | Prebid | no | no |
 | Rewarded video | Prebid | no | no |
+| Rewarded playable | Prebid | no | no |
 | MREC 300x250 — Google renders | Google | yes | yes |
 | Mobile banner 320x50 — Google renders | Google | yes | yes |
 

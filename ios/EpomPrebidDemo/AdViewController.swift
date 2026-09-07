@@ -45,8 +45,8 @@ final class AdViewController: UIViewController {
         case .video: loadVideo()
         case .native: loadNative()
         case .interstitial: loadFullScreen(video: true)
-        case .interstitialImage, .playable: loadFullScreen(video: false)
-        case .rewarded: loadRewarded()
+        case .interstitialImage: loadFullScreen(video: false)
+        case .rewarded, .rewardedPlayable: loadRewarded()
         default: loadThroughGoogle()
         }
     }
@@ -220,10 +220,11 @@ final class AdViewController: UIViewController {
         fullScreenHost = host
 
         let unit = RewardedAdUnit(configID: format.configId)
-        // Without this the ad unit asks for a banner, so a rewarded video could only ever win when
-        // the stored request happened to declare video on the server's side.
-        // A rewarded slot may answer with video or with a playable, which is HTML.
-        unit.adFormats = [.banner, .video]
+        // A playable is HTML, so that screen asks for HTML alone. Asking for both would let a
+        // placement that also holds a video answer with the video instead, which is not the thing
+        // the screen is named after. The video screen asks for both because a rewarded video slot
+        // may legitimately answer with either.
+        unit.adFormats = format == .rewardedPlayable ? [.banner] : [.banner, .video]
         unit.delegate = host
         rewarded = unit
 

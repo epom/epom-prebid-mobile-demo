@@ -40,13 +40,13 @@ enum class Format(
         "Interstitial image",
         "Full screen image or HTML, on a slot of its own."
     ),
-    PLAYABLE(
-        "Playable",
-        "Full screen HTML the user can play with."
-    ),
     REWARDED(
         "Rewarded video",
         "Full screen video. The reward arrives when it completes."
+    ),
+    REWARDED_PLAYABLE(
+        "Rewarded playable",
+        "Full screen HTML. The creative says when the reward is earned."
     ),
     BANNER_MREC_GAM(
         "MREC 300x250 — Google renders",
@@ -64,7 +64,7 @@ enum class Format(
         get() = when (this) {
             INTERSTITIAL -> "full-screen video"
             INTERSTITIAL_IMAGE -> "full-screen image"
-            PLAYABLE -> "full-screen playable"
+            REWARDED_PLAYABLE -> "rewarded playable"
             REWARDED -> "rewarded video"
             VIDEO -> "VAST video"
             NATIVE -> "native ad"
@@ -85,7 +85,7 @@ enum class Format(
         BANNER_320_GAM, BANNER_320_PREBID -> settings.configIdBanner
         INTERSTITIAL -> settings.configIdInterstitial
         INTERSTITIAL_IMAGE -> settings.configIdInterstitialImage
-        PLAYABLE -> settings.configIdPlayable
+        REWARDED_PLAYABLE -> settings.configIdPlayable
         REWARDED -> settings.configIdRewarded
         VIDEO -> settings.configIdVideo
         NATIVE -> settings.configIdNative

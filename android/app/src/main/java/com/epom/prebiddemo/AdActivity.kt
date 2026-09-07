@@ -90,8 +90,8 @@ class AdActivity : AppCompatActivity() {
             Format.VIDEO -> loadVideo()
             Format.NATIVE -> loadNative()
             Format.INTERSTITIAL -> loadFullScreen(video = true)
-            Format.INTERSTITIAL_IMAGE, Format.PLAYABLE -> loadFullScreen(video = false)
-            Format.REWARDED -> loadRewarded()
+            Format.INTERSTITIAL_IMAGE -> loadFullScreen(video = false)
+            Format.REWARDED, Format.REWARDED_PLAYABLE -> loadRewarded()
         }
     }
 
