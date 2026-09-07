@@ -39,6 +39,20 @@ Two different integrations live in these apps, and the menu is split between the
   and beats its own demand, the Prebid creative renders; otherwise Google serves its own. Google is
   not a "fallback" here — it is the ad server, and Prebid is one more source of demand inside it.
 
+## What it looks like
+
+| The menu | Prebid renders a banner | …and a native ad |
+|---|---|---|
+| ![The format menu](docs/screenshots/01-menu.png) | ![An MREC drawn by Prebid](docs/screenshots/02-mrec.png) | ![A native ad drawn by the app](docs/screenshots/03-native.png) |
+
+| A rewarded video, once the reward is earned | Settings, on the device |
+|---|---|
+| ![The reward granted after the video](docs/screenshots/04-rewarded.png) | ![The settings screen](docs/screenshots/05-settings.png) |
+
+Every screen keeps a running log of what it asked for and what came back — the slot id it sent, what
+the server answered, and who drew the creative. That is most of the value of these apps: when a bid
+does not fill, the screen says at which step it stopped.
+
 ## Quick start
 
 ```bash
