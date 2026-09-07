@@ -20,6 +20,10 @@ enum class Format(
         "MREC 300x250 — Prebid renders",
         "Prebid draws the winning creative. No Google ad unit, no line item."
     ),
+    BANNER_320_PREBID(
+        "Mobile banner 320x50 — Prebid renders",
+        "The size most apps sell, on the same slot the Google one uses."
+    ),
     VIDEO(
         "In-banner video",
         "VAST inside a 320x240 slot. Prebid plays it."
@@ -50,7 +54,7 @@ enum class Format(
         rendersThroughGoogle = true
     ),
     BANNER_320_GAM(
-        "Mobile banner 320x50",
+        "Mobile banner 320x50 — Google renders",
         "Needs its own ad unit — an MREC line item will not fill it.",
         rendersThroughGoogle = true
     );
@@ -64,21 +68,21 @@ enum class Format(
             REWARDED -> "rewarded video"
             VIDEO -> "VAST video"
             NATIVE -> "native ad"
-            BANNER_320_GAM -> "320x50 banner"
+            BANNER_320_GAM, BANNER_320_PREBID -> "320x50 banner"
             else -> "300x250 banner"
         }
 
     /** Width, height of the display slot. Full-screen and native screens ignore it. */
     val size: Pair<Int, Int>
         get() = when (this) {
-            BANNER_320_GAM -> 320 to 50
+            BANNER_320_GAM, BANNER_320_PREBID -> 320 to 50
             VIDEO -> 640 to 480
             else -> 300 to 250
         }
 
     /** The config id (Prebid Server stored-request id) this screen sends, resolved on the device. */
     fun configId(settings: Settings): String = when (this) {
-        BANNER_320_GAM -> settings.configIdBanner
+        BANNER_320_GAM, BANNER_320_PREBID -> settings.configIdBanner
         INTERSTITIAL -> settings.configIdInterstitial
         INTERSTITIAL_IMAGE -> settings.configIdInterstitialImage
         PLAYABLE -> settings.configIdPlayable
@@ -86,6 +90,17 @@ enum class Format(
         VIDEO -> settings.configIdVideo
         NATIVE -> settings.configIdNative
         else -> settings.configIdMrec
+    }
+
+    /**
+     * Whether the screen has everything it needs to be worth opening. A Google-rendered screen with
+     * no ad unit of its own reaches nothing and shows nothing, and a menu entry that can only
+     * disappoint is worse than no entry: the menu hides these until Settings names a unit.
+     */
+    fun isReady(settings: Settings): Boolean {
+        if (!rendersThroughGoogle) return true
+        val unit = gamAdUnit(settings).trim()
+        return unit.isNotEmpty() && !unit.contains("YOUR-NETWORK")
     }
 
     /** The Google ad unit this screen loads. Only the two Google-rendered screens have one. */

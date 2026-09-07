@@ -11,10 +11,17 @@ import androidx.appcompat.app.AppCompatActivity
 /** The format picker. Every screen behind it asks the same Prebid Server for the same account. */
 class MenuActivity : AppCompatActivity() {
 
+    /** Naming a Google ad unit in Settings adds two screens, so the menu is rebuilt on the way back. */
+    override fun onRestart() {
+        super.onRestart()
+        recreate()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
         val menu = findViewById<LinearLayout>(R.id.menu)
+        val settings = Settings(this)
 
         menu.addView(TextView(this).apply {
             text = getString(R.string.menu_intro)
@@ -35,7 +42,7 @@ class MenuActivity : AppCompatActivity() {
             setPadding(8, 0, 0, 28)
         })
 
-        Format.entries.forEach { format ->
+        Format.entries.filter { it.isReady(settings) }.forEach { format ->
             menu.addView(Button(this).apply {
                 text = format.title
                 isAllCaps = false

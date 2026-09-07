@@ -1,7 +1,7 @@
 # Epom + Prebid Mobile — reference apps
 
 Two small apps, one iOS and one Android, that sell in-app inventory through **Epom Ad Server** using
-header bidding. Each opens on a menu of nine formats — a Prebid-rendered banner, in-banner video,
+header bidding. Each opens on a menu of ten formats — two Prebid-rendered banners, in-banner video,
 native, a full-screen interstitial (video and image), a playable, a rewarded video, and two banners
 handed to Google to render — plus a Settings screen for pointing the app at your own server without
 rebuilding it.
@@ -31,10 +31,10 @@ as a bidder, by the `epom_as` adapter inside Prebid Server. The app only ever ta
 
 Two different integrations live in these apps, and the menu is split between them:
 
-- **Prebid renders** (the first seven screens). The Prebid Mobile *rendering API* fetches the bid
+- **Prebid renders** (the first eight screens). The Prebid Mobile *rendering API* fetches the bid
   **and draws the winning creative itself** — banner, video, native, full-screen, rewarded. No
   Google, no line items; these fill the moment the slot ids are right.
-- **Google renders** (the last two). The *original API* fetches a bid and writes its price into a
+- **Google renders** (the last two, hidden until you name an ad unit in Settings). The *original API* fetches a bid and writes its price into a
   Google ad request as key-value targeting. Google then decides: if a line item matches those keys
   and beats its own demand, the Prebid creative renders; otherwise Google serves its own. Google is
   not a "fallback" here — it is the ad server, and Prebid is one more source of demand inside it.
@@ -50,7 +50,7 @@ echo "sdk.dir=$HOME/Library/Android/sdk" > android/local.properties
 cd android && ./gradlew :app:installDebug
 ```
 
-Open any of the first seven screens and an ad fills. The two green "Google renders" screens stay
+Open any of the first eight screens and an ad fills. The two green "Google renders" screens stay
 empty until you set up line items — that is expected, and the section below says why.
 
 ## Everything you have to change
@@ -158,6 +158,7 @@ targeting.
 | Screen | Renders | Needs a Google ad unit | Needs a line item |
 |---|---|---|---|
 | MREC 300x250 — Prebid renders | Prebid | no | no |
+| Mobile banner 320x50 — Prebid renders | Prebid | no | no |
 | In-banner video | Prebid | no | no |
 | Native | Prebid | no | no |
 | Interstitial video | Prebid | no | no |
@@ -165,10 +166,15 @@ targeting.
 | Playable | Prebid | no | no |
 | Rewarded video | Prebid | no | no |
 | MREC 300x250 — Google renders | Google | yes | yes |
-| Mobile banner 320x50 | Google | yes | yes |
+| Mobile banner 320x50 — Google renders | Google | yes | yes |
 
-If the two Google screens stay empty while the others fill, the app is working and the Google line
-items are what is missing.
+The last two are not on the menu until Settings names an ad unit for them. Without one they reach
+nothing and show nothing, and an entry that can only disappoint teaches the reader the wrong lesson
+about the integration. Name a unit and they appear; if they then stay empty while the others fill,
+the app is working and the Google line items are what is missing.
+
+The two 320x50 screens ask for the same slot. That is the point of the pair: one bid, rendered two
+ways, so the difference between the paths is the only thing that varies.
 
 ## How the project is laid out
 

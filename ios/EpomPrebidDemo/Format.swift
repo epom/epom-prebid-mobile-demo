@@ -9,6 +9,7 @@ enum Format: String, CaseIterable {
     // soon as the slot ids are right; the two that hand the win to Google need line items built
     // against the hb_ keys before they show anything, so they sit last and are coloured apart.
     case bannerMrecPrebid
+    case bannerMobilePrebid
     case video
     case native
     case interstitial
@@ -21,6 +22,7 @@ enum Format: String, CaseIterable {
     var title: String {
         switch self {
         case .bannerMrecPrebid:  return "MREC 300x250 — Prebid renders"
+        case .bannerMobilePrebid: return "Mobile banner 320x50 — Prebid renders"
         case .video:             return "In-banner video"
         case .native:            return "Native"
         case .interstitial:      return "Interstitial video"
@@ -28,13 +30,14 @@ enum Format: String, CaseIterable {
         case .playable:          return "Playable"
         case .rewarded:          return "Rewarded video"
         case .bannerMrecGam:     return "MREC 300x250 — Google renders"
-        case .banner320Gam:      return "Mobile banner 320x50"
+        case .banner320Gam:      return "Mobile banner 320x50 — Google renders"
         }
     }
 
     var subtitle: String {
         switch self {
         case .bannerMrecPrebid:  return "Prebid draws the winning creative. No Google ad unit, no line item."
+        case .bannerMobilePrebid: return "The size most apps sell, on the same slot the Google one uses."
         case .video:             return "VAST inside a 320x240 slot. Prebid plays it."
         case .native:            return "The bid returns assets; the app draws the ad in its own style."
         case .interstitial:      return "Full screen video, on a slot marked instl."
@@ -71,7 +74,7 @@ enum Format: String, CaseIterable {
 
     var size: CGSize {
         switch self {
-        case .banner320Gam: return CGSize(width: 320, height: 50)
+        case .banner320Gam, .bannerMobilePrebid: return CGSize(width: 320, height: 50)
         case .video:        return CGSize(width: 320, height: 240)
         default:            return CGSize(width: 300, height: 250)
         }
@@ -86,9 +89,18 @@ enum Format: String, CaseIterable {
         }
     }
 
+    /// Whether the screen has everything it needs to be worth opening. A Google-rendered screen
+    /// without an ad unit of its own reaches nothing and shows nothing, and a menu entry that can
+    /// only disappoint is worse than no entry: the menu hides these until Settings names a unit.
+    var isReady: Bool {
+        guard rendersThroughGoogle else { return true }
+        let unit = gamAdUnit.trimmingCharacters(in: .whitespaces)
+        return !unit.isEmpty && unit != Config.gamAdUnitMREC && unit != Config.gamAdUnitBanner
+    }
+
     var configId: String {
         switch self {
-        case .banner320Gam:      return Settings.configIdBanner
+        case .banner320Gam, .bannerMobilePrebid: return Settings.configIdBanner
         case .interstitial:      return Settings.configIdInterstitial
         case .interstitialImage: return Settings.configIdInterstitialImage
         case .playable:          return Settings.configIdPlayable

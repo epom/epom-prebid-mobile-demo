@@ -59,7 +59,9 @@ final class SettingsViewController: UIViewController {
 
         section(stack, "Google")
         note(stack, "Only the two screens that say \"Google renders\" use this. The ones that say "
-            + "\"Prebid renders\" ignore it, which is why they fill on a fresh setup.")
+            + "\"Prebid renders\" ignore it, which is why they fill on a fresh setup. Those two are "
+            + "kept off the menu until an ad unit is named here: without one they reach nothing, and "
+            + "an entry that can only disappoint is worse than no entry.")
         add(to: stack, key: "ad_unit", label: "Ad unit — MREC 300x250",
             hint: "A Prebid bid reaches it through the line items you set up against the hb_ keys.",
             value: Settings.adUnitMREC)

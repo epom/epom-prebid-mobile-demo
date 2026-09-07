@@ -86,6 +86,7 @@ class AdActivity : AppCompatActivity() {
             Format.BANNER_MREC_GAM -> loadThroughGoogle(300, 250)
             Format.BANNER_320_GAM -> loadThroughGoogle(320, 50)
             Format.BANNER_MREC_PREBID -> loadThroughPrebid(300, 250)
+            Format.BANNER_320_PREBID -> loadThroughPrebid(320, 50)
             Format.VIDEO -> loadVideo()
             Format.NATIVE -> loadNative()
             Format.INTERSTITIAL -> loadFullScreen(video = true)

@@ -41,7 +41,7 @@ final class AdViewController: UIViewController {
         }
 
         switch format {
-        case .bannerMrecPrebid: loadThroughPrebid()
+        case .bannerMrecPrebid, .bannerMobilePrebid: loadThroughPrebid()
         case .video: loadVideo()
         case .native: loadNative()
         case .interstitial: loadFullScreen(video: true)

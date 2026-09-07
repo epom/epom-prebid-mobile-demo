@@ -4,6 +4,8 @@ import UIKit
 final class MenuViewController: UIViewController {
 
     private let settingsRow = UIButton(type: .system)
+    /// The Google half of the menu, kept so it can be shown the moment Settings names an ad unit.
+    private var googleRows: [(view: UIView, format: Format?)] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,10 +49,10 @@ final class MenuViewController: UIViewController {
                   + "an ad server — these fill as soon as the slot ids are right.",
               formats: Format.allCases.filter { !$0.rendersThroughGoogle })
 
-        group(stack, title: "Google renders", colour: Brand.google,
-              note: "Google Ad Manager draws the winner and Prebid only bids into it. These stay "
-                  + "empty until line items are set up against the hb_ keys.",
-              formats: Format.allCases.filter { $0.rendersThroughGoogle })
+        googleRows = group(stack, title: "Google renders", colour: Brand.google,
+                           note: "Google Ad Manager draws the winner and Prebid only bids into it. "
+                               + "These stay empty until line items are set up against the hb_ keys.",
+                           formats: Format.allCases.filter { $0.rendersThroughGoogle })
 
         [header, scroll].forEach { view.addSubview($0); $0.translatesAutoresizingMaskIntoConstraints = false }
         scroll.addSubview(stack)
@@ -114,6 +116,13 @@ final class MenuViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         settingsRow.configuration?.subtitle = serverSummary()
+
+        // Naming a Google ad unit in Settings adds screens to this menu, so the answer is recomputed
+        // on the way back rather than at launch. A stack view collapses what it hides.
+        let anyReady = Format.allCases.contains { $0.rendersThroughGoogle && $0.isReady }
+        googleRows.forEach { row in
+            row.view.isHidden = !anyReady || (row.format.map { !$0.isReady } ?? false)
+        }
     }
 
     /// What this app will ask, in one line. A demo that is not pointed anywhere should say so on
@@ -127,8 +136,9 @@ final class MenuViewController: UIViewController {
         return "\(host) · account \(Settings.accountId)"
     }
 
+    @discardableResult
     private func group(_ stack: UIStackView, title: String, colour: UIColor, note: String,
-                       formats: [Format]) {
+                       formats: [Format]) -> [(view: UIView, format: Format?)] {
         let heading = UILabel()
         heading.text = title.uppercased()
         heading.font = .systemFont(ofSize: 12, weight: .semibold)
@@ -144,8 +154,14 @@ final class MenuViewController: UIViewController {
         stack.setCustomSpacing(6, after: heading)
         stack.addArrangedSubview(caption)
         stack.setCustomSpacing(14, after: caption)
-        formats.forEach { stack.addArrangedSubview(row(for: $0)) }
+        var added: [(view: UIView, format: Format?)] = [(heading, nil), (caption, nil)]
+        formats.forEach {
+            let view = row(for: $0)
+            stack.addArrangedSubview(view)
+            added.append((view, $0))
+        }
         stack.setCustomSpacing(28, after: stack.arrangedSubviews.last ?? caption)
+        return added
     }
 
     private func row(for format: Format) -> UIView {

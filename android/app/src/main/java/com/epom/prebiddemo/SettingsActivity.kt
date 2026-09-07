@@ -40,7 +40,10 @@ class SettingsActivity : AppCompatActivity() {
         field(form, "ad_unit_banner", "Google ad unit — 320x50", settings.adUnitBanner)
 
         form.addView(TextView(this).apply {
-            text = "Google application id: ${settings.googleApplicationId}\n\n" +
+            text = "The two \"Google renders\" screens stay off the menu until an ad unit is named " +
+                "above: without one they reach nothing, and an entry that can only disappoint is " +
+                "worse than no entry.\n\n" +
+                "Google application id: ${settings.googleApplicationId}\n\n" +
                 "Fixed at build time, in AndroidManifest.xml. The Mobile Ads SDK reads it while the " +
                 "process starts — before any of this app's code runs — and crashes when it is absent, " +
                 "so it cannot be changed here."
