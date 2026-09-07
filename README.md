@@ -45,13 +45,25 @@ Two different integrations live in these apps, and the menu is split between the
 |---|---|---|
 | ![The format menu](docs/screenshots/01-menu.png) | ![An MREC drawn by Prebid](docs/screenshots/02-mrec.png) | ![A native ad drawn by the app](docs/screenshots/03-native.png) |
 
-| A rewarded video, once the reward is earned | Settings, on the device |
-|---|---|
-| ![The reward granted after the video](docs/screenshots/04-rewarded.png) | ![The settings screen](docs/screenshots/05-settings.png) |
+Rewarded is the one worth looking at twice. Both screens below are held open — there is no close
+button anywhere on them, because the ad is not finished being earned. The video earns it by playing
+out; the playable earns it when the creative says so, and only then does the ✕ appear.
 
-Every screen keeps a running log of what it asked for and what came back — the slot id it sent, what
-the server answered, and who drew the creative. That is most of the value of these apps: when a bid
-does not fill, the screen says at which step it stopped.
+| Rewarded video, counting down | Rewarded playable, mid-game | The reward is earned, and it can be closed |
+|---|---|---|
+| ![A rewarded video playing, with a countdown and no close button](docs/screenshots/04-rewarded-video.png) | ![A playable ad running, with no close button](docs/screenshots/05-rewarded-playable.png) | ![The playable's end card, now with a close button](docs/screenshots/06-reward-earned.png) |
+
+<img src="docs/screenshots/07-settings.png" alt="The settings screen" width="260" align="right">
+
+Settings is the other half of the idea. The server, the account and every slot id are editable on
+the device, so one build can be pointed at your own Prebid Server without touching Xcode or Gradle —
+and *Reset* puts the repository's values back.
+
+Every ad screen also keeps a running log of what it asked for and what came back: the slot id it
+sent, what the server answered, and who drew the creative. That is most of the value of these apps —
+when a bid does not fill, the screen says at which step it stopped.
+
+<br clear="all">
 
 ## Quick start
 
