@@ -33,7 +33,7 @@ enum Config {
     ///
     /// The stored-request JSON to file on your server is in the README.
     static let configIdMREC = "n2494-1"
-    static let configIdBanner = "YOUR-STORED-REQUEST-ID-320x50"
+    static let configIdBanner = "n2494-12"
     static let configIdVideo = "n2494-3"
     static let configIdNative = "n2494-2"
     static let configIdInterstitial = "n2494-4"

@@ -28,7 +28,7 @@
 
             The stored-request JSON to file on your server is in the README. -->
     <string name="config_id_mrec">n2494-1</string>
-    <string name="config_id_banner">YOUR-STORED-REQUEST-ID-320x50</string>
+    <string name="config_id_banner">n2494-12</string>
     <string name="config_id_video">n2494-3</string>
     <string name="config_id_native">n2494-2</string>
     <string name="config_id_interstitial">n2494-4</string>
