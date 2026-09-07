@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!--
+	  App Store Connect rejects an upload that has no privacy manifest, before review ever sees it.
+	  This one describes only what this app's own code does: every request behind the screens is
+	  made by Prebid Mobile or the Google Mobile Ads SDK, and each ships a manifest of its own that
+	  Xcode merges with this one into the privacy report.
+	-->
+
+	<!-- The app sends nothing anywhere itself, so it collects nothing to declare. -->
+	<key>NSPrivacyCollectedDataTypes</key>
+	<array/>
+
+	<!-- True: the app asks for App Tracking Transparency and hands the advertising id to ad SDKs. -->
+	<key>NSPrivacyTracking</key>
+	<true/>
+
+	<!--
+	  Empty on purpose. The app's own code opens no connections, and the server it talks to is
+	  chosen per install on the Settings screen, so there is no domain to name at build time.
+	  In an app of your own this list is yours to fill — and fill it carefully: iOS blocks every
+	  domain named here while tracking is denied, so an ad server listed here stops answering for
+	  everyone who declines the prompt.
+	-->
+	<key>NSPrivacyTrackingDomains</key>
+	<array/>
+
+	<key>NSPrivacyAccessedAPITypes</key>
+	<array>
+		<dict>
+			<!-- Settings.swift keeps the on-device overrides in UserDefaults, and reads back only
+			     what this app wrote. -->
+			<key>NSPrivacyAccessedAPIType</key>
+			<string>NSPrivacyAccessedAPICategoryUserDefaults</string>
+			<key>NSPrivacyAccessedAPITypeReasons</key>
+			<array>
+				<string>CA92.1</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>

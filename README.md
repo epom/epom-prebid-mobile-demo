@@ -202,6 +202,14 @@ stored request omits `banner`; the SDK sends the screen size. On the server side
 Google guide and returns nothing but no-fill (`Ad failed to load : 3`). Use
 `/21775744923/example/adaptive-banner`.
 
+**iOS uploads are rejected without a privacy manifest.** App Store Connect checks for one before a
+human ever sees the build — TestFlight included — so `PrivacyInfo.xcprivacy` ships here. It declares
+what this app's own code does and nothing more: the SDKs carry their own, and Xcode merges them into
+the privacy report. Its `NSPrivacyTrackingDomains` is deliberately empty, because the server this app
+talks to is chosen per install. In an app of your own, fill it carefully — iOS blocks every domain
+listed there while tracking is denied, so an ad server named in it stops answering for anyone who
+declines the prompt.
+
 **On the Android emulator the host is `10.0.2.2`, not `localhost`**, and a local HTTP server needs
 `android:usesCleartextTraffic="true"` in the manifest — deliberately not committed here.
 
